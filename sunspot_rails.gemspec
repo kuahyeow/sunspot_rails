@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{sunspot_rails}
-  s.version = "0.10.5"
+  s.version = "0.10.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Mat Brown", "Peer Allan", "Michael Moen", "Benjamin Krause"]
-  s.date = %q{2009-08-24}
+  s.date = %q{2009-10-08}
   s.description = %q{Rails integration for the Sunspot Solr search library}
   s.email = %q{mat@patch.com}
   s.extra_rdoc_files = [
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
      "VERSION.yml",
      "dev_tasks/gemspec.rake",
      "dev_tasks/rdoc.rake",
+     "dev_tasks/release.rake",
      "dev_tasks/todo.rake",
      "install.rb",
      "lib/sunspot/rails.rb",
@@ -50,6 +51,7 @@ Gem::Specification.new do |s|
      "spec/mock_app/config/initializers/session_store.rb",
      "spec/mock_app/config/routes.rb",
      "spec/mock_app/config/sunspot.yml",
+     "spec/mock_app/db/test.db",
      "spec/model_lifecycle_spec.rb",
      "spec/model_spec.rb",
      "spec/request_lifecycle_spec.rb",
@@ -59,7 +61,8 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/outoftime/sunspot_rails}
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.3.3}
+  s.rubyforge_project = %q{sunspot}
+  s.rubygems_version = %q{1.3.2}
   s.summary = %q{Rails integration for the Sunspot Solr search library}
   s.test_files = [
     "spec/request_lifecycle_spec.rb",
@@ -88,26 +91,23 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<rails>, ["~> 2.1"])
       s.add_runtime_dependency(%q<escape>, [">= 0.0.4"])
-      s.add_runtime_dependency(%q<outoftime-sunspot>, [">= 0.8.2"])
+      s.add_runtime_dependency(%q<kuahyeow-sunspot>, ["~> 0.10.0"])
       s.add_development_dependency(%q<rspec>, ["~> 1.2"])
       s.add_development_dependency(%q<rspec-rails>, ["~> 1.2"])
       s.add_development_dependency(%q<ruby-debug>, ["~> 0.10"])
       s.add_development_dependency(%q<technicalpickles-jeweler>, ["~> 1.0"])
     else
-      s.add_dependency(%q<rails>, ["~> 2.1"])
       s.add_dependency(%q<escape>, [">= 0.0.4"])
-      s.add_dependency(%q<outoftime-sunspot>, [">= 0.8.2"])
+      s.add_dependency(%q<kuahyeow-sunspot>, ["~> 0.10.0"])
       s.add_dependency(%q<rspec>, ["~> 1.2"])
       s.add_dependency(%q<rspec-rails>, ["~> 1.2"])
       s.add_dependency(%q<ruby-debug>, ["~> 0.10"])
       s.add_dependency(%q<technicalpickles-jeweler>, ["~> 1.0"])
     end
   else
-    s.add_dependency(%q<rails>, ["~> 2.1"])
     s.add_dependency(%q<escape>, [">= 0.0.4"])
-    s.add_dependency(%q<outoftime-sunspot>, [">= 0.8.2"])
+    s.add_dependency(%q<kuahyeow-sunspot>, ["~> 0.10.0"])
     s.add_dependency(%q<rspec>, ["~> 1.2"])
     s.add_dependency(%q<rspec-rails>, ["~> 1.2"])
     s.add_dependency(%q<ruby-debug>, ["~> 0.10"])

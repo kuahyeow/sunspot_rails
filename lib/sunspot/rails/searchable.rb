@@ -182,12 +182,15 @@ module Sunspot #:nodoc:
           unless options[:batch_size]
             Sunspot.index!(all(:include => options[:include]))
           else
-            record_count = count
-            counter = 1
             offset = 0
+            counter = 1
+            record_count = count
+            last_id = 0
             while(offset < record_count)
               benchmark options[:batch_size], counter do
-                Sunspot.index(all(:include => options[:include], :offset => offset, :limit => options[:batch_size], :order => primary_key))
+                records = all(:include => options[:include], :conditions => ["#{table_name}.#{primary_key} > ?", last_id], :limit => options[:batch_size], :order => primary_key)
+                Sunspot.index(records)
+                last_id = records.last.id
               end
               Sunspot.commit if options[:batch_commit]
               offset += options[:batch_size]
@@ -208,7 +211,8 @@ module Sunspot #:nodoc:
         #
         # Array:: Collection of IDs that exist in Solr but not in the database
         def index_orphans
-          indexed_ids = search_ids.to_set
+          count = self.count
+          indexed_ids = search_ids { paginate(:page => 1, :per_page => count) }.to_set
           all(:select => 'id').each do |object|
             indexed_ids.delete(object.id)
           end

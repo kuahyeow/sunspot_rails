@@ -6,11 +6,14 @@ task :default => :spec
 
 desc 'Run all specs'
 Spec::Rake::SpecTask.new(:spec) do |t|
-  t.spec_files = FileList['spec/**/*_spec.rb']
+  t.spec_files = FileList['spec/*_spec.rb']
   t.spec_opts << '--color'
 end
 
 task :environment do
+  if ENV['SUNSPOT_LIB']
+    $: << ENV['SUNSPOT_LIB']
+  end
   ENV['RAILS_ROOT'] ||= File.join(File.dirname(__FILE__), 'spec', 'mock_app')
   ENV['RAILS_ENV'] ||= 'test'
   require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config', 'environment.rb'))

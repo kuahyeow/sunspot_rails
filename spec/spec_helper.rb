@@ -5,12 +5,15 @@ require File.expand_path(File.join(ENV['RAILS_ROOT'], 'config', 'environment.rb'
 
 require 'spec'
 require 'spec/rails'
-require 'ruby-debug'
+require 'rake'
+require 'ruby-debug' unless RUBY_VERSION > '1.9'
+require 'sunspot/rails/tasks'
+require 'sunspot/spec/extension'
 
 def load_schema
   stdout = $stdout
   $stdout = StringIO.new # suppress output while building the schema
-  load File.join(File.dirname(__FILE__), 'schema.rb')
+  load File.join(ENV['RAILS_ROOT'], 'db', 'schema.rb')
   $stdout = stdout
 end
 
@@ -23,8 +26,21 @@ end
 
 Spec::Runner.configure do |config|
   config.before(:each) do
-    Sunspot.remove_all
-    Sunspot.commit
+    if integrate_sunspot?
+      Sunspot.remove_all
+      Sunspot.commit
+    end
     load_schema
+  end
+end
+
+module Spec
+  module Mocks
+    module Methods
+      def should_respond_to_and_receive(*args, &block)
+        respond_to?(args.first).should ==(true)
+        should_receive(*args, &block)
+      end
+    end
   end
 end
